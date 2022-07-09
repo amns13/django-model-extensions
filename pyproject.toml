@@ -6,10 +6,19 @@ authors = ["amns13 <slimmsady@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+Django = "^4.0.6"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
+black = "^22.6.0"
+flake8 = "^4.0.1"
+pre-commit = "^2.19.0"
+djhtml = "^1.5.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+target-version = ['py38']
+line-length=88
