@@ -42,12 +42,27 @@ class TestCreateUpdateTimestampModel(TestCase):
         self.assertEqual(obj.created_at, self.mocked_time_past)
         self.assertEqual(obj.last_updated_at, self.mocked_time_now)
 
+    @mock.patch("django.utils.timezone.now")
+    def test_created_at_last_updated_at_is_now_on_bulk_create(self, mock_now):
+        obj_count = 5
+        mock_now.return_value = self.mocked_time_past
+        objs = [CreatedUpdatedTimestampTestModel() for _ in range(obj_count)]
+        bulk_create_count = CreatedUpdatedTimestampTestModel.objects.bulk_create(
+            objs, batch_size=(obj_count // 2)
+        )
+        self.assertEqual(bulk_create_count, obj_count)
+
+        test_objects = CreatedUpdatedTimestampTestModel.objects.all()
+        for obj in test_objects:
+            self.assertEqual(obj.created_at, self.mocked_update_time)
+            self.assertEqual(obj.last_updated_at, self.mocked_update_time)
+
 
 class TestUpdateQueryOnCreatedUpdatedTimeStampModel(TestCase):
     """Test Cases for CreateUpdateTimestampManager"""
 
     def setUp(self) -> None:
-        self.object_count = 3
+        self.object_count = 5
         for _ in range(self.object_count):
             CreatedUpdatedTimestampTestModel.objects.create()
 
@@ -62,6 +77,23 @@ class TestUpdateQueryOnCreatedUpdatedTimeStampModel(TestCase):
         mock_now.return_value = self.mocked_update_time
         update_result = CreatedUpdatedTimestampTestModel.objects.update()
         self.assertEqual(update_result, self.object_count)
+
+        test_objects = CreatedUpdatedTimestampTestModel.objects.all()
+        for obj in test_objects:
+            self.assertNotEqual(obj.created_at, self.mocked_update_time)
+            self.assertEqual(obj.last_updated_at, self.mocked_update_time)
+
+    @mock.patch("django.utils.timezone.now")
+    def test_last_updated_at_is_now_on_running_bulk_update_query(self, mock_now):
+        """
+        Test last_updated_at is equal to current timestamp when bulk_update is run.
+        """
+        mock_now.return_value = self.mocked_update_time
+        objects_to_update = list(CreatedUpdatedTimestampTestModel.objects.all())
+        bulk_update_result = CreatedUpdatedTimestampTestModel.objects.bulk_update(
+            objects_to_update, [], batch_size=(self.object_count // 2)
+        )
+        self.assertEqual(bulk_update_result, self.object_count)
 
         test_objects = CreatedUpdatedTimestampTestModel.objects.all()
         for obj in test_objects:
