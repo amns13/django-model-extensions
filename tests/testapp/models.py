@@ -59,3 +59,7 @@ class Author(CreatedUpdatedTimestampModel):
 
     def __str__(self) -> str:
         return self.name
+
+
+class CreatedUpdatedTimestampTestModel(CreatedUpdatedTimestampModel):
+    pass
