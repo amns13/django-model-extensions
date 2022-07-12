@@ -47,15 +47,14 @@ class TestCreateUpdateTimestampModel(TestCase):
         obj_count = 5
         mock_now.return_value = self.mocked_time_past
         objs = [CreatedUpdatedTimestampTestModel() for _ in range(obj_count)]
-        bulk_create_count = CreatedUpdatedTimestampTestModel.objects.bulk_create(
+        created_objects = CreatedUpdatedTimestampTestModel.objects.bulk_create(
             objs, batch_size=(obj_count // 2)
         )
-        self.assertEqual(bulk_create_count, obj_count)
-
+        self.assertEqual(len(created_objects), obj_count)
         test_objects = CreatedUpdatedTimestampTestModel.objects.all()
         for obj in test_objects:
-            self.assertEqual(obj.created_at, self.mocked_update_time)
-            self.assertEqual(obj.last_updated_at, self.mocked_update_time)
+            self.assertEqual(obj.created_at, self.mocked_time_past)
+            self.assertEqual(obj.last_updated_at, self.mocked_time_past)
 
 
 class TestUpdateQueryOnCreatedUpdatedTimeStampModel(TestCase):
