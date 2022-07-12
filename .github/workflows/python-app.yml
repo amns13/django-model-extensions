@@ -37,5 +37,5 @@ jobs:
 
     - name: Run Tests
       run: |
-        cd ..
+        ls -a
         poetry run python manage.py test
