@@ -1,37 +1,41 @@
 from django.db import models
 
-from django_model_extensions.models import CreatedUpdatedTimestampModel
+from django_model_extensions.models import (
+    CreatedUpdatedByModel,
+    CreatedUpdatedTimestampModel,
+    CreatedUpdatedTimeUserModel,
+)
 
 
-class Publication(CreatedUpdatedTimestampModel):
+class Publication(CreatedUpdatedTimeUserModel):
     name = models.CharField(max_length=255)
 
     def __str__(self) -> str:
         return self.name
 
 
-class Rating(CreatedUpdatedTimestampModel):
+class Rating(CreatedUpdatedTimeUserModel):
     score = models.FloatField()
 
     def __str__(self) -> str:
         return str(self.pk)
 
 
-class Genre(CreatedUpdatedTimestampModel):
+class Genre(CreatedUpdatedTimeUserModel):
     name = models.CharField(max_length=255)
 
     def __str__(self) -> str:
         return self.name
 
 
-class MediumType(CreatedUpdatedTimestampModel):
+class MediumType(CreatedUpdatedTimeUserModel):
     name = models.CharField(max_length=255)
 
     def __str__(self) -> str:
         return self.name
 
 
-class Book(CreatedUpdatedTimestampModel):
+class Book(CreatedUpdatedTimeUserModel):
     title = models.CharField(max_length=255)
     publication = models.ForeignKey(Publication, on_delete=models.CASCADE)
     rating = models.OneToOneField(
@@ -44,7 +48,7 @@ class Book(CreatedUpdatedTimestampModel):
         return self.title
 
 
-class Price(CreatedUpdatedTimestampModel):
+class Price(CreatedUpdatedTimeUserModel):
     medium = models.ForeignKey(MediumType, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=6, decimal_places=2)
@@ -53,7 +57,7 @@ class Price(CreatedUpdatedTimestampModel):
         return str(self.pk)
 
 
-class Author(CreatedUpdatedTimestampModel):
+class Author(CreatedUpdatedTimeUserModel):
     name = models.CharField(max_length=255, blank=True)
     books = models.ManyToManyField(Book)
 
@@ -62,4 +66,8 @@ class Author(CreatedUpdatedTimestampModel):
 
 
 class CreatedUpdatedTimestampTestModel(CreatedUpdatedTimestampModel):
+    pass
+
+
+class CreatedUpdatedByTestModel(CreatedUpdatedByModel):
     pass
