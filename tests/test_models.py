@@ -1,10 +1,11 @@
 from datetime import timedelta
 from unittest import mock
 
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.utils import timezone
 
-from .testapp.models import CreatedUpdatedTimestampTestModel
+from .testapp.models import CreatedUpdatedByTestModel, CreatedUpdatedTimestampTestModel
 
 
 class TestCreateUpdateTimestampModel(TestCase):
@@ -60,11 +61,10 @@ class TestCreateUpdateTimestampModel(TestCase):
 class TestUpdateQueryOnCreatedUpdatedTimeStampModel(TestCase):
     """Test Cases for CreateUpdateTimestampManager"""
 
-    def setUp(self) -> None:
-        self.object_count = 5
-        for _ in range(self.object_count):
-            CreatedUpdatedTimestampTestModel.objects.create()
+    fixtures = ["auth.json", "testdata.json"]
 
+    def setUp(self) -> None:
+        self.object_count = CreatedUpdatedTimestampTestModel.objects.count()
         self.mocked_update_time = timezone.now() + timedelta(days=1)
 
     @mock.patch("django.utils.timezone.now")
@@ -98,3 +98,32 @@ class TestUpdateQueryOnCreatedUpdatedTimeStampModel(TestCase):
         for obj in test_objects:
             self.assertNotEqual(obj.created_at, self.mocked_update_time)
             self.assertEqual(obj.last_updated_at, self.mocked_update_time)
+
+
+class TestCreatedUpdatedByModel(TestCase):
+    fixtures = ["auth.json", "testdata.json"]
+
+    def setUp(self) -> None:
+        User = get_user_model()
+        self.created_by = User.objects.get(pk=1)
+        self.updated_by = User.objects.get(pk=2)
+
+    def test_created_by_last_updated_by_is_set_on_creation(self):
+        """
+        Test whether created_by and last_updated_by are correctly set on object creation
+        """
+        obj = CreatedUpdatedByTestModel.objects.create(
+            created_by=self.created_by, last_updated_by=self.created_by
+        )
+        self.assertEqual(obj.created_by, self.created_by)
+        self.assertEqual(obj.last_updated_by, self.created_by)
+
+    def test_created_by_is_not_updated_on_updating(self):
+        """Test that created_by is not updated on update even when a value is given"""
+        obj = CreatedUpdatedByTestModel.objects.filter(created_by_id=1).first()
+        obj.created_by = self.updated_by
+        obj.last_updated_by = self.updated_by
+        obj.save()
+        obj.refresh_from_db()
+        self.assertEqual(obj.created_by, self.created_by)
+        self.assertEqual(obj.last_updated_by, self.updated_by)
