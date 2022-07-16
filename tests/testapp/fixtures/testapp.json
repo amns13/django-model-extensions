@@ -1,0 +1,310 @@
+[
+  {
+    "model": "testapp.publication",
+    "pk": 1,
+    "fields": {
+      "created_at": "2022-07-10T14:40:32.667Z",
+      "last_updated_at": "2022-07-10T14:40:32.667Z",
+      "created_by": null,
+      "last_updated_by": null,
+      "name": "Pearson"
+    }
+  },
+  {
+    "model": "testapp.publication",
+    "pk": 2,
+    "fields": {
+      "created_at": "2022-07-11T17:38:37.385Z",
+      "last_updated_at": "2022-07-11T17:38:37.385Z",
+      "created_by": null,
+      "last_updated_by": null,
+      "name": "Shonen Jump"
+    }
+  },
+  {
+    "model": "testapp.rating",
+    "pk": 1,
+    "fields": {
+      "created_at": "2022-07-10T14:43:55.888Z",
+      "last_updated_at": "2022-07-11T16:27:15.441Z",
+      "created_by": null,
+      "last_updated_by": null,
+      "score": 9.0
+    }
+  },
+  {
+    "model": "testapp.rating",
+    "pk": 2,
+    "fields": {
+      "created_at": "2022-07-11T16:07:42.888Z",
+      "last_updated_at": "2022-07-11T16:27:15.441Z",
+      "created_by": null,
+      "last_updated_by": null,
+      "score": 9.0
+    }
+  },
+  {
+    "model": "testapp.rating",
+    "pk": 3,
+    "fields": {
+      "created_at": "2022-07-11T17:38:43.305Z",
+      "last_updated_at": "2022-07-11T17:38:43.305Z",
+      "created_by": null,
+      "last_updated_by": null,
+      "score": 10.0
+    }
+  },
+  {
+    "model": "testapp.genre",
+    "pk": 1,
+    "fields": {
+      "created_at": "2022-07-10T14:40:09.051Z",
+      "last_updated_at": "2022-07-10T14:40:09.052Z",
+      "created_by": null,
+      "last_updated_by": null,
+      "name": "Educational"
+    }
+  },
+  {
+    "model": "testapp.genre",
+    "pk": 2,
+    "fields": {
+      "created_at": "2022-07-11T17:38:53.481Z",
+      "last_updated_at": "2022-07-11T17:38:53.481Z",
+      "created_by": null,
+      "last_updated_by": null,
+      "name": "Manga"
+    }
+  },
+  {
+    "model": "testapp.mediumtype",
+    "pk": 1,
+    "fields": {
+      "created_at": "2022-07-10T14:40:46.994Z",
+      "last_updated_at": "2022-07-10T14:40:46.994Z",
+      "created_by": null,
+      "last_updated_by": null,
+      "name": "Hardcover"
+    }
+  },
+  {
+    "model": "testapp.mediumtype",
+    "pk": 2,
+    "fields": {
+      "created_at": "2022-07-10T14:40:50.877Z",
+      "last_updated_at": "2022-07-12T18:10:35.299Z",
+      "created_by": 2,
+      "last_updated_by": 2,
+      "name": "Kindle"
+    }
+  },
+  {
+    "model": "testapp.mediumtype",
+    "pk": 3,
+    "fields": {
+      "created_at": "2022-07-10T14:40:55.020Z",
+      "last_updated_at": "2022-07-10T14:40:55.020Z",
+      "created_by": null,
+      "last_updated_by": null,
+      "name": "Paperback"
+    }
+  },
+  {
+    "model": "testapp.book",
+    "pk": 1,
+    "fields": {
+      "created_at": "2022-07-10T14:41:16.684Z",
+      "last_updated_at": "2022-07-12T17:59:55.478Z",
+      "created_by": null,
+      "last_updated_by": 1,
+      "title": "The C Programmin Language",
+      "publication": 1,
+      "rating": 1,
+      "genre": 1
+    }
+  },
+  {
+    "model": "testapp.book",
+    "pk": 2,
+    "fields": {
+      "created_at": "2022-07-11T16:07:12.868Z",
+      "last_updated_at": "2022-07-16T12:50:19.919Z",
+      "created_by": null,
+      "last_updated_by": 2,
+      "title": "CLRS",
+      "publication": 1,
+      "rating": 2,
+      "genre": null
+    }
+  },
+  {
+    "model": "testapp.book",
+    "pk": 3,
+    "fields": {
+      "created_at": "2022-07-11T17:38:56.685Z",
+      "last_updated_at": "2022-07-11T18:06:54.418Z",
+      "created_by": null,
+      "last_updated_by": null,
+      "title": "One Piece",
+      "publication": 2,
+      "rating": 3,
+      "genre": 2
+    }
+  },
+  {
+    "model": "testapp.book",
+    "pk": 4,
+    "fields": {
+      "created_at": "2022-07-11T17:41:43.241Z",
+      "last_updated_at": "2022-07-11T17:41:43.241Z",
+      "created_by": null,
+      "last_updated_by": null,
+      "title": "Gintama",
+      "publication": 2,
+      "rating": null,
+      "genre": null
+    }
+  },
+  {
+    "model": "testapp.book",
+    "pk": 5,
+    "fields": {
+      "created_at": "2022-07-11T17:41:43.241Z",
+      "last_updated_at": "2022-07-16T12:50:31.763Z",
+      "created_by": null,
+      "last_updated_by": 2,
+      "title": "Dragon Ball",
+      "publication": 2,
+      "rating": null,
+      "genre": null
+    }
+  },
+  {
+    "model": "testapp.book",
+    "pk": 6,
+    "fields": {
+      "created_at": "2022-07-12T17:59:39.998Z",
+      "last_updated_at": "2022-07-12T17:59:39.998Z",
+      "created_by": 1,
+      "last_updated_by": 1,
+      "title": "Berserk",
+      "publication": 2,
+      "rating": null,
+      "genre": null
+    }
+  },
+  {
+    "model": "testapp.price",
+    "pk": 1,
+    "fields": {
+      "created_at": "2022-07-10T14:45:50.258Z",
+      "last_updated_at": "2022-07-10T14:45:50.258Z",
+      "created_by": null,
+      "last_updated_by": null,
+      "medium": 2,
+      "book": 1,
+      "price": "120.00"
+    }
+  },
+  {
+    "model": "testapp.price",
+    "pk": 2,
+    "fields": {
+      "created_at": "2022-07-10T14:46:01.494Z",
+      "last_updated_at": "2022-07-10T14:46:01.494Z",
+      "created_by": null,
+      "last_updated_by": null,
+      "medium": 1,
+      "book": 1,
+      "price": "250.00"
+    }
+  },
+  {
+    "model": "testapp.author",
+    "pk": 1,
+    "fields": {
+      "created_at": "2022-07-10T14:41:35.673Z",
+      "last_updated_at": "2022-07-10T14:41:35.673Z",
+      "created_by": null,
+      "last_updated_by": null,
+      "name": "Dennis M. Ritchie",
+      "books": [1]
+    }
+  },
+  {
+    "model": "testapp.author",
+    "pk": 2,
+    "fields": {
+      "created_at": "2022-07-10T14:41:45.927Z",
+      "last_updated_at": "2022-07-10T14:41:45.927Z",
+      "created_by": null,
+      "last_updated_by": null,
+      "name": "Brian W. Kernighan",
+      "books": [1]
+    }
+  },
+  {
+    "model": "testapp.author",
+    "pk": 3,
+    "fields": {
+      "created_at": "2022-07-16T12:48:10.807Z",
+      "last_updated_at": "2022-07-16T12:49:12.815Z",
+      "created_by": 1,
+      "last_updated_by": 1,
+      "name": "Eiichiro Oda",
+      "books": [3]
+    }
+  },
+  {
+    "model": "testapp.author",
+    "pk": 4,
+    "fields": {
+      "created_at": "2022-07-16T12:48:28.443Z",
+      "last_updated_at": "2022-07-16T12:48:28.443Z",
+      "created_by": 2,
+      "last_updated_by": 2,
+      "name": "Kentaro Miura",
+      "books": [6]
+    }
+  },
+  {
+    "model": "testapp.createdupdatedtimestamptestmodel",
+    "pk": 1,
+    "fields": {
+      "created_at": "2022-07-10T14:40:32.667Z",
+      "last_updated_at": "2022-07-10T14:40:32.667Z"
+    }
+  },
+  {
+    "model": "testapp.createdupdatedtimestamptestmodel",
+    "pk": 2,
+    "fields": {
+      "created_at": "2022-07-10T14:40:32.667Z",
+      "last_updated_at": "2022-07-10T14:40:32.667Z"
+    }
+  },
+  {
+    "model": "testapp.createdupdatedtimestamptestmodel",
+    "pk": 3,
+    "fields": {
+      "created_at": "2022-07-10T14:40:32.667Z",
+      "last_updated_at": "2022-07-10T14:40:32.667Z"
+    }
+  },
+  {
+    "model": "testapp.createdupdatedtimestamptestmodel",
+    "pk": 4,
+    "fields": {
+      "created_at": "2022-07-10T14:40:32.667Z",
+      "last_updated_at": "2022-07-10T14:40:32.667Z"
+    }
+  },
+  {
+    "model": "testapp.createdupdatedtimestamptestmodel",
+    "pk": 5,
+    "fields": {
+      "created_at": "2022-07-10T14:40:32.667Z",
+      "last_updated_at": "2022-07-10T14:40:32.667Z"
+    }
+  }
+]
