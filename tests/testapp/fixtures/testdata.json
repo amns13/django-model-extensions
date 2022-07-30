@@ -62,5 +62,21 @@
       "created_by": 1,
       "last_updated_by": 1
     }
+  },
+  {
+    "model": "testapp.createdupdatedbytestmodel",
+    "pk": 4,
+    "fields": {
+      "created_by": 1,
+      "last_updated_by": 1
+    }
+  },
+  {
+    "model": "testapp.createdupdatedbytestmodel",
+    "pk": 5,
+    "fields": {
+      "created_by": 1,
+      "last_updated_by": 1
+    }
   }
 ]

@@ -127,3 +127,114 @@ class TestCreatedUpdatedByModel(TestCase):
         obj.refresh_from_db()
         self.assertEqual(obj.created_by, self.created_by)
         self.assertEqual(obj.last_updated_by, self.updated_by)
+
+    def test_created_by_id_is_not_updated_on_updating(self):
+        """Test that created_by is not updated on update even when a value is given"""
+        obj = CreatedUpdatedByTestModel.objects.filter(created_by_id=1).first()
+        obj.created_by_id = self.updated_by.pk
+        obj.last_updated_by_id = self.updated_by.pk
+        obj.save()
+        obj.refresh_from_db()
+        self.assertEqual(obj.created_by, self.created_by)
+        self.assertEqual(obj.last_updated_by, self.updated_by)
+
+    def test_craeted_by_last_updated_by_is_set_on_bulk_create(self):
+        """
+        Test if created_by and last_updated_by are correctly set on object bulk create
+        """
+        obj_count = 5
+        objs = [
+            CreatedUpdatedByTestModel(
+                created_by=self.created_by, last_updated_by=self.created_by
+            )
+            for _ in range(obj_count)
+        ]
+        created_objects = CreatedUpdatedByTestModel.objects.bulk_create(
+            objs, batch_size=(obj_count // 2)
+        )
+        self.assertEqual(len(created_objects), obj_count)
+        test_objects = CreatedUpdatedByTestModel.objects.all()
+        for obj in test_objects:
+            self.assertEqual(obj.created_by, self.created_by)
+            self.assertEqual(obj.last_updated_by, self.created_by)
+
+
+class TestUpdateQueryOnCreatedUpdatedByModel(TestCase):
+    """Test Cases for update query on CreatedUpdatedByModel"""
+
+    fixtures = ["auth.json", "testdata.json"]
+
+    def setUp(self) -> None:
+        User = get_user_model()
+        self.updater = User.objects.get(pk=2)
+        self.object_count = CreatedUpdatedByTestModel.objects.exclude(
+            created_by_id=2
+        ).count()
+
+    def test_created_by_is_not_updated_on_running_update_query(self):
+        """
+        Test last_updated_by is updated on update query
+        """
+        test_objects = list(CreatedUpdatedByTestModel.objects.exclude(created_by_id=2))
+
+        update_result = CreatedUpdatedByTestModel.objects.exclude(
+            created_by_id=2
+        ).update(created_by=self.updater, last_updated_by=self.updater)
+        self.assertEqual(update_result, self.object_count)
+
+        for obj in test_objects:
+            obj.refresh_from_db()
+            self.assertNotEqual(obj.created_by.pk, self.updater.pk)
+            self.assertEqual(obj.last_updated_by.pk, self.updater.pk)
+
+    def test_created_by_id_is_not_updated_on_running_update_query(self):
+        """
+        Test last_updated_by is updated on update query
+        """
+        test_objects = list(CreatedUpdatedByTestModel.objects.exclude(created_by_id=2))
+
+        update_result = CreatedUpdatedByTestModel.objects.exclude(
+            created_by_id=2
+        ).update(created_by_id=self.updater.pk, last_updated_by_id=self.updater.pk)
+        self.assertEqual(update_result, self.object_count)
+
+        for obj in test_objects:
+            obj.refresh_from_db()
+            self.assertNotEqual(obj.created_by.pk, self.updater.pk)
+            self.assertEqual(obj.last_updated_by.pk, self.updater.pk)
+
+    def test_created_by_is_not_updated_on_running_bulk_update_query(self):
+        test_objects = list(CreatedUpdatedByTestModel.objects.exclude(created_by_id=2))
+        for obj in test_objects:
+            obj.created_by = self.updater
+            obj.last_updated_by = self.updater
+
+        bulk_update_result = CreatedUpdatedByTestModel.objects.bulk_update(
+            test_objects,
+            ["created_by", "last_updated_by"],
+            batch_size=(self.object_count // 2),
+        )
+        self.assertEqual(bulk_update_result, self.object_count)
+
+        for obj in test_objects:
+            obj.refresh_from_db()
+            self.assertNotEqual(obj.created_by.pk, self.updater.pk)
+            self.assertEqual(obj.last_updated_by.pk, self.updater.pk)
+
+    def test_created_by_id_is_not_updated_on_running_bulk_update_query(self):
+        test_objects = list(CreatedUpdatedByTestModel.objects.exclude(created_by_id=2))
+        for obj in test_objects:
+            obj.created_by_id = self.updater.pk
+            obj.last_updated_by_id = self.updater.pk
+
+        bulk_update_result = CreatedUpdatedByTestModel.objects.bulk_update(
+            test_objects,
+            ["created_by_id", "last_updated_by_id"],
+            batch_size=(self.object_count // 2),
+        )
+        self.assertEqual(bulk_update_result, self.object_count)
+
+        for obj in test_objects:
+            obj.refresh_from_db()
+            self.assertNotEqual(obj.created_by.pk, self.updater.pk)
+            self.assertEqual(obj.last_updated_by.pk, self.updater.pk)

@@ -6,7 +6,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 
-class CreateUpdateTimestampManager(models.Manager):
+class CreateUpdateTimestampQuerySet(models.QuerySet):
     """
     Custom Manager for CreatedUpdatedTimestampModel.
     Used to update last_update_at on update.
@@ -44,11 +44,27 @@ class CreatedUpdatedTimestampModel(models.Model):
     created_at = models.DateTimeField(_("created timestamp"), auto_now_add=True)
     last_updated_at = models.DateTimeField(_("last update timestamp"), auto_now=True)
 
-    objects = CreateUpdateTimestampManager()
+    objects = CreateUpdateTimestampQuerySet.as_manager()
 
     class Meta:
         abstract = True
         get_latest_by = "last_updated_at"
+
+
+# class CreatedUpdatedByUserManager(models.Manager):
+class CreatedUpdatedByUserQuerySet(models.QuerySet):
+    """
+    Custom QuerySet for CreatedUpdatedByUserManager.
+    Used to prevent update of created_by on update query.
+    Using a queryset instead of a Manager as QuerySet object
+    is returned by filters.
+    """
+
+    def update(self, **kwargs: any) -> int:
+        """Remove created_by from list of fields to update if it's there"""
+        kwargs.pop("created_by", None)
+        kwargs.pop("created_by_id", None)
+        return super().update(**kwargs)
 
 
 class CreatedUpdatedByModel(models.Model):
@@ -80,6 +96,8 @@ class CreatedUpdatedByModel(models.Model):
         verbose_name=_("last updated by"),
         editable=False,
     )
+
+    objects = CreatedUpdatedByUserQuerySet.as_manager()
 
     class Meta:
         abstract = True

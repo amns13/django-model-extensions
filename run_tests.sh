@@ -1,4 +1,4 @@
 #!/bin/bash
-coverage run manage.py test
+coverage run --branch manage.py test
 coverage report
 coverage html
